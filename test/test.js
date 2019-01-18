@@ -33,6 +33,7 @@ const sum = (left, right) => left + right +1;
 describe(`3rd Grade Match`, () => {
 // Внутри describe описываем все тестовые сценарии которые будем использовать  метод it (1 описание, 2 тело теста)
     // Написали тест который показывает что правильно суммируется
+    // assert.ok проверяет значение на true и false
     it(`should sum and two correctly`, () => {
       assert.equal(sum(2, 2), 4)
       // 2 +3 Это не 4
