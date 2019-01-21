@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+<body>
+
+  <div id="main"></div>
+  <script type="text/javascript">
+
+    //data.js
+    const initialState=Object.freeze({
+      level:`level-0`,
+      lives:3,
+      time:0
+    })
+
+    //  замораживает объект: это значит, что он предотвращает добавление новых свойств к объекту, удаление
+// старых свойств из объекта и изменение существующих свойств
+    const levels=Object.freeze({
+      'level-0':{
+      description:`Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+      tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+      quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+      consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+      cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+      proident, sunt in culpa qui officia deserunt mollit anim id est laborum.`,
+      answer:{
+        'left':null,
+        'jump':null,
+        'right':'level-1'
+      }
+    },
+
+    'level-1':{
+      description : `И вот вы справа.Вернитесь назад тут пусто`,
+      answer:{
+        'left':'level-0'
+      }
+    }
+    })
+
+    //get-element-from-template.js
+    // const container =document.querySelector(`#main`)
+
+    const getElementFromTemplate=(template)=>{
+      const container = document.createElement(`div`);
+      container.innerHTML = template
+      return container
+    };
+
+
+
+    const container=document.querySelector(`#main`)
+
+    // header.js
+    const headerTemplate = (state) => `<header class="header">
+    <div>Мир:   ${state.level}</div>
+    <div>
+      Жизни:
+      ${new Array(3-state.lives) //В начале делаем массив пустых сердечек
+      .fill(`<span class="heart_empty">♡</span>`)
+      .join(``)}
+      ${new Array(state.lives)
+      .fill(`<span class="heart_full">♥</span>`)
+      .join(``)}
+    </div>
+     <div>Время:${state.time}</div>
+     </header>`;
+
+    // container.appendChild(getElementFromTemplate(headerTemplate(initialState)))
+    container.insertAdjacentElement('beforebegin',getElementFromTemplate(headerTemplate(initialState)))
+
+    // container.appendChild(getElementFromTemplate(headerTemplate({
+    //   level:`level-0`,
+    //   lives:3,
+    //   time:0
+    // })))
+
+
+    // screen.js
+    // const screenTemplate=`
+
+    // `
+
+    const screenTemplate=(level)=> `
+  <div class="quest">
+  <p class='quest'>${level.description}</p>
+  <input type="text" name="">
+  <ul class='answer'>
+    ${[...Object.entries(level.answer)].map(([answer]) =>
+        `<li class="answer">${answer.toUpperCase()}</li>`).join(``)
+    }
+  </ul>
+</div>
+  <div class="result"></div>
+  <small>Для справки введите <i>help</i></small>`;
+
+
+    const renderScreen=(state) => {
+      console.log(state)
+      container.innerHTML =``;
+      container.appendChild(getElementFromTemplate(screenTemplate(levels[state.level])))
+
+      const input =container.querySelector(`input`)
+      input.onkeydown=(evt)=>{
+      if(evt.key===`Enter`){
+        // Переход на следующий экран
+        const userAnswer=input.value.trim()
+        console.log(levels[state.level].answer[userAnswer])
+        // Проверка на содержится ли значения введеного инпута с объектом levels
+        const destination = userAnswer.toLowerCase() in levels[state.level].answer ? levels[state.level].answer[userAnswer]
+        : null
+        console.log(levels[state.level].answer[userAnswer])
+        console.log(levels[state.level])
+
+        if (destination){
+          renderScreen(Object.assign({},state,{
+            'level': destination
+          }))
+        }
+      }
+    }
+   }
+   renderScreen(initialState)
+  // input.focus()
+
+
+
+  </script>
+
+<script type="text/javascript">
+  const numbers=[5,4,3,2,1]
+  console.log(numbers.find((it)=>it%2===0))
+</script>
+
+
+<script type="text/javascript">
+  //Объекты которые могут принимать ключи,не только строки
+  const map=new Map()
+  map.set(`a`,1)
+  map.set(`и`,2)
+  console.log(map.get(`a`))
+  console.log(map.get(`и`))
+  map.forEach((val,key,map)=>{
+    console.log(val)
+    console.log(key)
+    console.log(map)
+    })
+
+  // Множество в js называется Set
+  const listGroceries=new Set()
+  listGroceries.add(`Milk`)
+  listGroceries.add(`Tea`)
+  listGroceries.add(`Eggs`)
+  listGroceries.add(`Eggs`)
+  listGroceries.add(`Tr`)
+  listGroceries.add(`Tea`)
+  console.info(listGroceries )
+
+
+// Можно передать несколько параметров за раз
+  const map2= new Map([
+    [document.createElement("div"),1],
+    ['b',2]
+  ]);
+  console.log(map2.get('b'))
+
+
+const mySet= new Set([1,2,3,4,4,4,4,4,4,4])
+// console.log(mySet.has(2))
+console.log(mySet)
+
+const mySet2= new Set([`left`,`right  `,`jump `])
+console.info(mySet2.entries())
+// Можно при помощи spread оператора превратить в массив состоящий из массивов
+console.info([...mySet2.entries()])
+console.info([...mySet2.entries()].forEach(([el])=>console.log(el)))
+
+
+const frozen ={
+      a:1,
+      b:2
+}
+  // Что бы скопировать объект и добавить в него другие элементы
+  const newObj=Object.assign(frozen,{
+    c:2
+  })
+  console.log(newObj)
+
+// Теперь хочу переписать объект frozen изменив ключ а
+
+   console.log(Object.assign(frozen,{
+      a:2
+    }))
+
+
+</script>
+</body>
+</html>
