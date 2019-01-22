@@ -110,11 +110,14 @@ gulp.task(`build`, [`assemble`], () => {
 });
 
 const mocha = require('gulp-mocha')
+var babel = require("gulp-babel");
 gulp.task(`test`, () => {
-  return gulp.src(['js/**/**.test.js'], {read: false})
+  return gulp.src(['js/**.test.js'], {read: false})
+  .pipe(babel())
+  .pipe(gulp.dest("dist"))
   .pipe(mocha(
   {
-    reporter: 'list',
+    reporter: 'nyan',
     compilers: ['js:babel-register']
   }))
 });
