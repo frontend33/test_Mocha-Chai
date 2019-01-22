@@ -5,8 +5,13 @@ export const initialGame = {
 };
 
 export const setLives = (game, lives) => {
-  game.lives = lives;
-  return game;
+  if(lives<0) {
+    throw new RangeError(`Can't set negative lives`)
+  }
+  // Что бы объект initialGame не перезаписывался копируем объект
+  const newGame = Object.assign({}, game)
+  newGame.lives = lives;
+  return newGame;
 }
 
 export const quest = {
