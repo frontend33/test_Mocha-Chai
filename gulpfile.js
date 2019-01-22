@@ -114,7 +114,7 @@ var babel = require("gulp-babel");
 gulp.task(`test`, () => {
   return gulp.src(['js/**.test.js'], {read: false})
   .pipe(babel())
-  .pipe(gulp.dest("dist"))
+  // .pipe(gulp.dest("dist"))
   .pipe(mocha(
   {
     reporter: 'nyan',
